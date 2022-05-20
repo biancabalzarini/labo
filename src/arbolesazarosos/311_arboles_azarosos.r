@@ -19,7 +19,7 @@ dapply  <- fread("./datasets/paquete_premium_202101.csv")
 
 
 #Establezco cuales son los campos que puedo usar para la prediccion
-campos_buenos  <- setdiff(  colnames(dtrain) ,  c("clase_ternaria") )
+campos_buenos  <- setdiff(  colnames(dtrain) ,  c("clase_ternaria") ) #Todas las variables menos la que quiero predecir (clase_ternaria)
 
 param_buenos  <- list( "cp"=         -1,
                        "minsplit"=  300,
@@ -49,8 +49,8 @@ pdf( "./labo/exp/KA2101/arbolitos.pdf", paper="a4r" )
 
 for(  i in  1:num_trees ) #genero  num_trees arboles
 {
-  qty_campos_a_utilizar  <- as.integer( length(campos_buenos)* feature_fraction )
-  campos_random  <- sample( campos_buenos, qty_campos_a_utilizar )
+  qty_campos_a_utilizar  <- as.integer( length(campos_buenos)* feature_fraction ) #Cantidad de campos a utilizar
+  campos_random  <- sample( campos_buenos, qty_campos_a_utilizar ) #Elijo un subset random de campos (tantos como me indique la línea anterior)
   
   #paso de un vector a un string con los elementos separados por un signo de "+"
   #este hace falta para la formula
@@ -71,7 +71,7 @@ for(  i in  1:num_trees ) #genero  num_trees arboles
   #aplico el modelo a los datos que no tienen clase
   prediccion  <- predict( modelo, dapply , type = "prob")
   
-  tb_ensembles[  ,  paste0( "arbol", i) :=  prediccion[ , "BAJA+2"] ]
+  tb_ensembles[  ,  paste0( "arbol", i) :=  prediccion[ , "BAJA+2"] ] #Le agrego una columna a tb_ensembles que se llame "arbol<i>" y que tenga la probabilidad de ser BAJA+2 de cada registro
 
   #voy acumulando la probabilidad
   probabilidad_ensemble  <- probabilidad_ensemble +  prediccion[, "BAJA+2"]
