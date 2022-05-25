@@ -13,7 +13,7 @@ require("rpart.plot")
 setwd("C:/Users/Bianca/OneDrive/Documentos/Archivos/ITBA/MineriaDeDatos")  #Establezco el Working Directory
 
 #cargo los datos de 202011 que es donde voy a ENTRENAR el modelo
-dtrain  <- fread("./datasets/paquete_premium_202011.csv")
+dtrain  <- fread("./labo/exp/FE4020/paquete_premium_202011_ext1.csv")
 
 #genero el modelo,  aqui se construye el arbol
 modelo  <- rpart("clase_ternaria ~ .",  #quiero predecir clase_ternaria a partir de el resto de las variables
@@ -32,7 +32,7 @@ prp(modelo, extra=101, digits=5, branch=1, type=4, varlen=0, faclen=0)
 #Ahora aplico al modelo  a los datos de 202101  y genero la salida para kaggle
 
 #cargo los datos de 202011, que es donde voy a APLICAR el modelo
-dapply  <- fread("./datasets/paquete_premium_202101.csv")
+dapply  <- fread("./labo/exp/FE4020/paquete_premium_202101_ext1.csv")
 
 #aplico el modelo a los datos nuevos
 prediccion  <- predict( modelo, dapply , type = "prob")
@@ -52,8 +52,8 @@ entrega  <- dapply[   , list(numero_de_cliente, Predicted) ] #genero la salida
 #genero el archivo para Kaggle
 #creo la carpeta donde va el experimento
 dir.create( "./labo/exp/" ) 
-dir.create( "./labo/exp/KA2001" ) 
+dir.create( "./labo/exp/FE2001" ) 
 
 fwrite( entrega, 
-        file= "./labo/exp/KA2001/K101_003.csv", 
+        file= "./labo/exp/FE2001/F101_001.csv", 
         sep= "," )
