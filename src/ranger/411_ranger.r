@@ -58,13 +58,13 @@ prediccion  <- predict( modelo, dapply )
 
 #Genero la entrega para Kaggle
 entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_cliente],
-                                 "Predicted"= as.numeric(prediccion$predictions[ ,"BAJA+2" ] > 1/60) ) ) #genero la salida
+                                 "Predicted"= as.numeric(prediccion$predictions[ ,"BAJA+2" ] > 0.021)))#1/60) ) ) #genero la salida
 
 #creo la carpeta donde va el experimento
 # HT  representa  Hiperparameter Tuning
 dir.create( "./labo/exp/",  showWarnings = FALSE ) 
 dir.create( "./labo/exp/KA2411/", showWarnings = FALSE )
-archivo_salida  <- "./labo/exp/KA2411/KA_411_005.csv"
+archivo_salida  <- "./labo/exp/KA2411/KA_411_007.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 

@@ -294,3 +294,133 @@ c
 c[length(c)]>quantile(c)[4]
 c[length(c)]>median(c)
 #length(b)
+
+
+
+
+
+
+
+
+
+
+
+##########################################################################################
+
+#t1 = 90 ; t2 = 45 ; t3 = 55 ; t4 = 60 ; t5 = 180 # ; t6 = 100
+#t1 = 90 ; t2 = 50 ; t3 = 55 ; t4 = 55 ; t5 = 220 #0.9872
+#t1 = 90 ; t2 = 50 ; t3 = 50 ; t4 = 50 ; t5 = 250 #0.987
+#t1 = 90 ; t2 = 50 ; t3 = 55 ; t4 = 65 ; t5 = 220 #0.9878
+#t1 = 90 ; t2 = 50 ; t3 = 60 ; t4 = 65 ; t5 = 180 #0.987
+#t1 = 90 ; t2 = 50 ; t3 = 55 ; t4 = 75 ; t5 = 210 #0.9889 #UPS, ME PASE DE TIROS
+#t1 = 90 ; t2 = 50 ; t3 = 60 ; t4 = 75 ; t5 = 170 #0.9865
+#t1 = 90 ; t2 = 45 ; t3 = 55 ; t4 = 75 ; t5 = 236 #0.9887
+
+t1 = 90 ; t2 = 46 ; t3 = 57 ; t4 = 80 ; t5 = 225
+t1*100 + t2*50 + t3*25 + t3*13 + t4*7 + t5*4 # + t6*2 #Un aproximado de la cantidad total de tiros
+t1 + t2 + t3 + t4 + t5 # + t6 #Cantidad de tiros totales que hacen los que llegan hasta el final
+
+Estrategia  <- function()
+  {
+  #inicializo el juego
+  gimnasio_init()
+  
+  #a = which(GLOBAL_jugadores==0.7)
+  #a #Posicion de jordan
+  #GLOBAL_jugadores[a] #Este es jordan
+  
+  #Esta el la planilla del cazatalentos
+  planilla_cazatalentos  <- data.table( "id" = 1:100 )
+  
+  
+  #Ronda 1  ------------------------------------------------------
+  #tiran los 100 jugadores es decir 1:100  90 tiros libres cada uno
+  ids_juegan1  <- 1:100   #los jugadores que participan en la ronda,
+  
+  planilla_cazatalentos[ ids_juegan1,  tiros1 := t1 ]  #registro en la planilla que tiran 90 tiros
+  
+  #Hago que tiren
+  resultado1  <- gimnasio_tirar( ids_juegan1, t1 )
+  planilla_cazatalentos[ ids_juegan1,  aciertos1 := resultado1 ]  #registro en la planilla
+  
+  #Ronda 2 -------------------------------------------------------
+  #la mejor mitad de los jugadores tiran de nuevo
+  mediana2  <- planilla_cazatalentos[ ids_juegan1, median(aciertos1) ]
+  ids_juegan2  <- planilla_cazatalentos[ ids_juegan1 ][ aciertos1 > mediana2, id ]
+  
+  planilla_cazatalentos[ ids_juegan2,  tiros2 := t2 ]
+  resultado2  <- gimnasio_tirar( ids_juegan2, t2 )
+  planilla_cazatalentos[ ids_juegan2,  aciertos2 := resultado2 ]
+  
+  planilla_cazatalentos[ ids_juegan2, subtotal2 := aciertos1+aciertos2 ]
+  
+  #Ronda 3 -------------------------------------------------------
+  mediana3  <- planilla_cazatalentos[ ids_juegan2, median(subtotal2) ]
+  ids_juegan3  <- planilla_cazatalentos[ ids_juegan2 ][subtotal2 > mediana3, id ]
+  
+  planilla_cazatalentos[ ids_juegan3,  tiros3 := t3 ]
+  resultado3  <- gimnasio_tirar( ids_juegan3, t3 )
+  planilla_cazatalentos[ ids_juegan3,  aciertos3 := resultado3 ]
+  
+  planilla_cazatalentos[ ids_juegan3, subtotal3 := subtotal2+aciertos3 ]
+  
+  #Ronda 4 -------------------------------------------------------
+  mediana4  <- planilla_cazatalentos[ ids_juegan3, median(subtotal3) ]
+  ids_juegan4  <- planilla_cazatalentos[ ids_juegan3 ][subtotal3 > mediana4, id ]
+  
+  planilla_cazatalentos[ ids_juegan4,  tiros4 := t4 ]
+  resultado4  <- gimnasio_tirar( ids_juegan4, t4 )
+  planilla_cazatalentos[ ids_juegan4,  aciertos4 := resultado4 ]
+  
+  planilla_cazatalentos[ ids_juegan4, subtotal4 := subtotal3+aciertos4 ]
+  
+  #Ronda 5 -------------------------------------------------------
+  mediana5  <- planilla_cazatalentos[ ids_juegan4, median(subtotal4) ]
+  ids_juegan5  <- planilla_cazatalentos[ ids_juegan4 ][subtotal4 > mediana5, id ]
+  
+  planilla_cazatalentos[ ids_juegan5,  tiros5 := t5 ]
+  resultado5  <- gimnasio_tirar( ids_juegan5, t5 )
+  planilla_cazatalentos[ ids_juegan5,  aciertos5 := resultado5 ]
+  
+  planilla_cazatalentos[ ids_juegan5, subtotal5 := subtotal4+aciertos5 ]
+  
+  #Ronda 6 -------------------------------------------------------
+  #mediana6  <- planilla_cazatalentos[ ids_juegan5, median(subtotal5) ]
+  #ids_juegan6  <- planilla_cazatalentos[ ids_juegan5 ][subtotal5 > mediana6, id ]
+  
+  #planilla_cazatalentos[ ids_juegan6,  tiros6 := t6 ]
+  #resultado6  <- gimnasio_tirar( ids_juegan6, t6 )
+  #planilla_cazatalentos[ ids_juegan6,  aciertos6 := resultado6 ]
+  
+  #planilla_cazatalentos[ ids_juegan6, subtotal6 := subtotal5+aciertos6 ]
+  
+  #VEREDICTO -----------------------------------------------------
+  pos_mejor <-  planilla_cazatalentos[ , which.max(subtotal5) ]
+  id_mejor  <-  planilla_cazatalentos[ pos_mejor, id ]
+  veredicto  <- gimnasio_veredicto( id_mejor )
+  return( veredicto )
+}
+
+#Aqui hago la Estimacion Montecarlo del porcentaje de aciertos que tiene la estrategia A
+
+set.seed( 102191 )  #debe ir una sola vez, ANTES de los experimentos
+
+tabla_veredictos  <- data.table(  tiros_total=integer(),  acierto=integer() )
+
+for( experimento  in  1:10000 )
+{
+  if( experimento %% 1000 == 0 )  cat( experimento, " ")  #desprolijo, pero es para saber por donde voy
+  
+  veredicto  <- Estrategia()
+  
+  tabla_veredictos  <- rbind( tabla_veredictos, veredicto )
+}
+
+cat("\n")
+
+tiros_total  <-  tabla_veredictos[  , max( tiros_total ) ]
+tasa_eleccion_correcta  <-  tabla_veredictos[  , mean( acierto ) ]
+
+tiros_total
+tasa_eleccion_correcta
+
