@@ -166,4 +166,4 @@ x  <- list( eta=               0.3,
             prob_corte=        1/60
           )
 
-EstimarGanancia_xgboost( x ) 
+EstimarGanancia_xgboost( x )
