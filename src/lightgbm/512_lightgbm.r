@@ -31,13 +31,18 @@ dtrain  <- lgb.Dataset( data= data.matrix(  dataset[ , campos_buenos, with=FALSE
 #genero el modelo con los parametros por default
 modelo  <- lgb.train( data= dtrain,
                       param= list( objective=        "binary",
-                                   num_iterations=     613,
-                                   num_leaves=         591,
-                                   feature_fraction=    0.494364232772488,
-                                   min_data_in_leaf= 5636,
-                                   learning_rate = 0.010432911100201,
-                                   prob_corte = 0.016615258298968,
-                                   seed= 999983 )
+                                   num_iterations=     6,
+                                   num_leaves=         16,
+                                   feature_fraction=    0.399497262541983,
+                                   min_data_in_leaf= 3993,
+                                   learning_rate = 0.007017723809839,
+                                   prob_corte = 0.048539273959943,
+                                   seed= 999983,
+                                   #A PARTIR DE AHORA PRUEBO OTROS PARÁMETROS DE LIGHTGBM QUE EN GENERAL LOS DEJAMOS CON SUS VALORES DEFAULT
+                                   lambda_l1= 56.1793772076246,
+                                   lambda_l2= 12.8311990614692,
+                                   min_gain_to_split= 108.069796791456
+                                   )
                     )
 
 #aplico el modelo a los datos sin clase
@@ -58,7 +63,7 @@ entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_clien
 
 dir.create( "./labo/exp/",  showWarnings = FALSE ) 
 dir.create( "./labo/exp/KA2512/", showWarnings = FALSE )
-archivo_salida  <- "./labo/exp/KA2512/KA_512_002.csv"
+archivo_salida  <- "./labo/exp/KA2512/KA_512_003.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
@@ -68,7 +73,7 @@ fwrite( entrega,
 
 #ahora imprimo la importancia de variables
 tb_importancia  <-  as.data.table( lgb.importance(modelo) ) 
-archivo_importancia  <- "./labo/exp/KA2512/512_importancia_002.txt"
+archivo_importancia  <- "./labo/exp/KA2512/512_importancia_003.txt"
 
 fwrite( tb_importancia, 
         file= archivo_importancia, 
