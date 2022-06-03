@@ -565,7 +565,7 @@ setorder( dataset, numero_de_cliente, foto_mes )
 
 AgregarMes( dataset )  #agrego el mes del año  1,2 3,..,12
 
-DummiesNA( dataset )  #esta linea debe ir ANTES de Corregir  !!
+#DummiesNA( dataset )  #esta linea debe ir ANTES de Corregir  !!
 
 Corregir( dataset )  #esta linea debe ir DESPUES de  DummiesNA
 
@@ -609,7 +609,7 @@ TendenciaYmuchomas( dataset,
                     tendencia= TRUE,
                     minimo=    FALSE,
                     maximo=    FALSE,
-                    promedio=  TRUE,
+                    promedio=  FALSE,
                     ratioavg=  FALSE,
                     ratiomax=  FALSE
 )
@@ -617,12 +617,12 @@ TendenciaYmuchomas( dataset,
 TendenciaYmuchomas( dataset, 
                     cols= cols_lagueables,
                     ventana=  12,
-                    tendencia= TRUE,
-                    minimo=    TRUE,
+                    tendencia= FALSE,
+                    minimo=    FALSE,
                     maximo=    TRUE,
-                    promedio=  TRUE,
+                    promedio=  FALSE,
                     ratioavg=  TRUE,
-                    ratiomax=  TRUE
+                    ratiomax=  FALSE
 )
 
 #Comentar si no se quiera que funcione

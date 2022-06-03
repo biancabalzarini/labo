@@ -30,13 +30,21 @@ modelo  <- xgb.train( data= dtrain,
                       param= list( objective=       "binary:logistic",
                                    tree_method=     "hist",
                                    grow_policy=     "lossguide",
-                                   max_leaves=          20,
-                                   min_child_weight=    1,
-                                   eta=                 0.3,
-                                   colsample_bytree=    1,
-                                   prob_corte= 0.0166666666666667
+                                   max_leaves=          318,
+                                   min_child_weight=    10,
+                                   eta=                 0.010029544521553,
+                                   colsample_bytree=    0.285547001256555,
+                                   base_score= mean( getinfo(dtrain, "label")),
+                                   verbose= -100,
+                                   gamma=                0.0,
+                                   alpha=                0.0,
+                                   lambda=               0.0,
+                                   subsample=            1.0,
+                                   max_depth=            0,
+                                   max_bin=            256,
+                                   scale_pos_weight=     1.0
                                    ),
-                      nrounds= 34
+                      nrounds= 311
                     )
 
 #aplico el modelo a los datos sin clase
@@ -49,11 +57,11 @@ prediccion  <- predict( modelo,
 
 #Genero la entrega para Kaggle
 entrega  <- as.data.table( list( "numero_de_cliente"= dapply[  , numero_de_cliente],
-                                 "Predicted"= as.integer( prediccion > 1/60)  ) ) #genero la salida
+                                 "Predicted"= as.integer( prediccion > 0.013889782341519 )  ) ) #genero la salida #aca va prob_corte
 
 dir.create( "./labo/exp/",  showWarnings = FALSE ) 
 dir.create( "./labo/exp/KA5710/", showWarnings = FALSE )
-archivo_salida  <- "./labo/exp/KA5710/KA_571_006.csv"
+archivo_salida  <- "./labo/exp/KA5710/KA_571_008.csv"
 
 #genero el archivo para Kaggle
 fwrite( entrega, 
