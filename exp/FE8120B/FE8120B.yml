@@ -17,17 +17,17 @@ param:
   corregir: TRUE    #se se corrige los campos/foto_mes  MALOS
   variablesdrift: [] #variables que se eliminan porque estan mal en el futuro
   
-  variablesmanuales: FALSE
+  variablesmanuales: TRUE #Quiero que utilice las variables que armo a mano (no los lags ni los delta lags ni nada de eso)
 
   acumulavars: FALSE   #a lo nuevo lo va aplicando
 
   tendenciaYmuchomas: 
     correr: TRUE #Great power comes with great responsability
     ventana: 6
-    tendencia: TRUE
+    tendencia: TRUE #Ahora solo quiero que calculo la tendencia
     minimo:    FALSE
     maximo:    FALSE
-    promedio:  TRUE
+    promedio:  FALSE
     ratioavg:  FALSE
     ratiomax:  FALSE
 
