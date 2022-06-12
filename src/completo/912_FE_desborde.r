@@ -248,10 +248,14 @@ AgregarVariables  <- function( dataset )
   dataset[ , mvr_mpagominimo         := mv_mpagominimo  / mv_mlimitecompra ]
 
   #Aqui debe usted agregar sus propias nuevas variables
+  dataset[ , num_nas := Reduce(`+`, lapply(.SD,function(x) is.na(x))) ] #Sumo la cantidad de NAs que tiene cada registro
   dataset[ , ren_prom_mes := mrentabilidad_annual/max(cliente_antiguedad,12) ] #Esto sería la ganancia promedio por mes que obtuvo el banco gracias al cliente: Ganancia total dividido la cantidad de meses que estuvo el cliente en el banco (si son más de 12, divido por 12 porque la ganancia es del último año).
   dataset[ , variabilidad_ren := (mrentabilidad-ren_prom_mes)/abs(ren_prom_mes) ] #Refiriendome a la ganancia generada por el banco gracias al cliente, diferencia entre la ganancia del último mes y la promedio histórica del cliente, pero esa diferencia pesada por la ganancia histórica del cliente.
+  dataset[ , porcentaje_dolares := mcaja_ahorro_dolares/mcuentas_saldo] #Porcentaje del saldo total del cliente que está en caja de ahorro en dólares
+  dataset[ , mpayroll_dif := mpayroll-mpayroll2] #Diferencia entre lo que el cliente recibe de un empleador acreditado y por fuera de estos.
   dataset[ , porcentaje_pay := (mpayroll+mpayroll2)/mcuentas_saldo] #Toda la plata que le entra al cliente que por mes, que porcentaje representa de lo que ya tiene ese cliente en su cuenta?
-
+  dataset[ , dif_transf := mtransferencias_recibidas-mtransferencias_emitidas] #Diferencia entre transferencias recibidas y emitidas. Un cliente que se quiere ir es probable que vacíe su cuenta (haga muchas transferencias y reciba pocas)
+  
 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
