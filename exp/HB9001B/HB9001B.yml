@@ -13,7 +13,7 @@ experiment:
   type: "hybridisation"
   tags: [ "hybrid" ]
   description: "Hibridacion de Semillerios"
-  requires:   [ "ZZ8320B", "ZZ8321B", "ZZ8322B", "ZZ8420B", "ZZ8420B1", "ZZ9000B", "ZZ9001B" ]   #poner ZZs, que sean buenos y que hayan terminado, a gusto
+  requires:   [ "ZZ8320B", "ZZ8321B", "ZZ8322B", "ZZ8420B", "ZZ8420B1", "ZZ9001B" ]   #poner ZZs, que sean buenos y que hayan terminado, a gusto
 
 param:
   KA_start:  8000
