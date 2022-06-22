@@ -6,6 +6,8 @@ gc()             #garbage collection
 
 require("data.table")
 
+#7 CLUSTERS, NO HISTORICO
+
 setwd( "C:/Users/Bianca/OneDrive/Documentos/Archivos/ITBA/MineriaDeDatos/labo/expCloud/ST7610" )
 
 dataset  <- fread("./exp_ST7610_cluster_de_bajas.txt", stringsAsFactors= TRUE)
@@ -31,3 +33,23 @@ plot(dataset[  , mean(mpayroll),  cluster2 ])
 #Los clusters 5, 6 y 7 tienen valores parecidos en los centroides de muchas variables (salvo mcuentas_saldo y mprestamos_personales)
 #QUIZAS si bajo a 5 el número de clusters, el 5, 6 y 7 se unan (aproximadamente) en un mismo cluster
 #Me parece que puede llegar a ser demasiado tener 7 clusters
+
+
+#VER LOS DESVIOS ESTANDAR !!!!!!!!!!!
+
+
+#7 CLUSTERS, HISTORICO (12 MESES)
+
+#limpio la memoria
+rm( list=ls() )  #remove all objects
+gc()             #garbage collection
+
+require("data.table")
+
+setwd( "C:/Users/Bianca/OneDrive/Documentos/Archivos/ITBA/MineriaDeDatos/labo/expCloud/ST7620" )
+
+dataset  <- fread("./exp_ST7620_cluster_de_bajas_12meses.txt", stringsAsFactors= TRUE)
+
+print("Cantidad de clusters:")
+print(length(unique(dataset$cluster2)))
+
