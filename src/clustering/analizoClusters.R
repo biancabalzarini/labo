@@ -94,6 +94,23 @@ dataset  <- fread("./exp_ST7621_cluster_de_bajas_12meses.txt", stringsAsFactors=
 print("Cantidad de clusters:")
 print(length(unique(dataset$cluster2)))
 
+# Mirando estos 5 clusters, los ultimos dos caian siempre muy juntos ---> Pruebo con 4 clusters
+
+#4 CLUSTERS, HISTORICO (12 MESES)
+
+#limpio la memoria
+rm( list=ls() )  #remove all objects
+gc()             #garbage collection
+
+require("data.table")
+
+setwd( "C:/Users/Bianca/OneDrive/Documentos/Archivos/ITBA/MineriaDeDatos/labo/expCloud/ST7622" )
+
+dataset  <- fread("./exp_ST7622_cluster_de_bajas_12meses.txt", stringsAsFactors= TRUE)
+
+print("Cantidad de clusters:")
+print(length(unique(dataset$cluster2)))
+
 
 #~~~#
 
@@ -203,7 +220,7 @@ ggplot() +
 
 
 # Otro grafico
-var = quote(mcaja_ahorro_dolares) #cpayroll_trx #mpayroll #ctarjeta_visa_trx #chomebanking_trx #mcaja_ahorro_dolares
+var = quote(mcuentas_saldo) #cpayroll_trx #mpayroll #ctarjeta_visa_trx #mtarjeta_visa_consumo #chomebanking_trx #mcaja_ahorro_dolares #mtransferencias_emitidas #mactivos_margen #mcuentas_saldo #cliente_edad
 
 a = cbind(mes_m8[  , mean(eval(var)),  cluster2 ][,2],
           mes_m7[  , mean(eval(var)),  cluster2 ][,2],
@@ -225,7 +242,7 @@ b = cbind(mes_m8[  , sd(eval(var)),  cluster2 ][,2],
           mes_m1[  , sd(eval(var)),  cluster2 ][,2],
           ultimo_mes[  , sd(eval(var)),  cluster2 ][,2])
 
-colors = c("#EB1E2C","blue","green","orange","black","violet","pink")
+colors = c("#EB1E2C","#49F149","black","orange","black","violet","pink")
 nro = 1 # Numero de cluster
 plot(c(-8,-7,-6,-5,-4,-3,-2,-1,0),a[nro],type="l",ylim=c(min(a),max(a)),col=colors[1],xlab='Meses',ylab=var)
 for (val in 1: length(unique(dataset$cluster2))-1)
